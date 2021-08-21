@@ -53,56 +53,33 @@ class GameWindow:
         pygame.mixer.music.play(-1)
 
 
-class Character:
-    def __init__(self, x_pos, y_pos):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
+class GameCharacter:
+    def __init__(self, char_x_pos, char_y_pos):
+        if char_x_pos is None:
+            char_x_pos = 0
+        if char_y_pos is None:
+            char_y_pos = 0
+        self.char_x_pos = char_x_pos
+        self.char_y_pos = char_y_pos
+        self.char_img = None
 
-
-class Player:
-    def __init__(self, x_pos, y_pos):
-        if x_pos is None:
-            x_pos = 0
-        if y_pos is None:
-            y_pos = 0
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.player_img = None
-
-    def set_img(self, player_img=None):
-        self.player_img = player_img
-        if self.player_img is None:
-            self.player_img = pygame.image.load("player.png")
+    def set_img(self, char_img=None):
+        self.char_img = char_img
 
     def show_img(self, window, x=None, y=None):
         if x is not None:
-            self.x_pos = x
+            self.char_x_pos = x
         if y is not None:
-            self.y_pos = y
-        window.blit(self.player_img, (self.x_pos, self.y_pos))
+            self.char_y_pos = y
+        window.blit(self.char_img, (self.char_x_pos, self.char_y_pos))
 
 
-class Enemy:
-    def __init__(self, x_pos, y_pos):
-        if x_pos is None:
-            x_pos = 0
-        if y_pos is None:
-            y_pos = 0
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.enemy_img = None
+class Player(GameCharacter):
+    pass
 
-    def set_img(self, player_img=None):
-        self.player_img = player_img
-        if self.player_img is None:
-            self.enemy_img = pygame.image.load("player.png")
 
-    def show_img(self, window, x=None, y=None):
-        if x is not None:
-            self.x_pos = x
-        if y is not None:
-            self.y_pos = y
-        window.blit(self.enemy_img, (self.x_pos, self.y_pos))
+class Enemy(GameCharacter):
+    pass
 
 
 class GameSounds:
@@ -215,7 +192,7 @@ def main():
     player_y = game_window.width - player_img_width - (game_window.width * 0.02)
     player = Player(player_x, player_y)
     # setting player's character's ship image.
-    player.set_img(window)
+    player.set_img(char_img=pygame.image.load("player.png"))
 
     # space of game window to be left so player can not exceed boundary limits.
     space_left = 0.01
